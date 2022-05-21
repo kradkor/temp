@@ -123,6 +123,13 @@ lastb: last fail login logs(last's composite)
 lastb -4 or lastb -n 4: last 4 fail log
 lastlog: all system accounts last login log
 
+vi /etc/logrotate
+
+/var/log/wtmp {
+weekly
+create 0600 root utmp
+rotate 4
+}
 
 # System info
 kernel info
