@@ -240,8 +240,36 @@ exam) remove Input chain 5th rule
 iptables -D INPUT 5
 
 exam) add rule input chain 2nd rule to log
-iptables -I INPUT 2 -j LOG
+iptables -I INPUT 2 -j 
+  
+## mail ##
+/etc/aliases
+/etc/mail/virtusertable
 
+alias
+vi /etc/aliases
+webmaster: user, user2
+admin:include:/path
+  
+newaliases
+  
+virtuset
+ 
+ vi /etc/mail/virtusertable
+ admin@a.com  root
+ ad@a.com      root
+ 
+test@b.com root
+test@c.com root
+  
+makemap hash /etc/mail/virtusertable < /etc/mail/virtusertable
+                                                              
+                                                              
+                                                              
+ 
+## rsync ##
+rsync -avz root@192.168.1.22:/home /backup                                              
+  
 # history
 clean
 history -c
