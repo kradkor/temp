@@ -223,8 +223,8 @@ conf: /etc/squid/squid.conf
 <example> - /etc/squid/squid.conf 
 http_port [portnum] : set proxy port
 acl [alias] src [iprange] : set alias to IP range
-http-access allow [alias] : allow alias range
-http-access deny [alias] : deny alias range
+http_access allow [alias] : allow alias range
+http_access deny [alias] : deny alias range
 
 ## iptables ##
 iptables -L: print rules
@@ -254,3 +254,19 @@ clear
 printf '\033[3J'
 
 sudo chmod a+x /usr/local/bin/cls
+  
+# samba
+  /etc/samba/smb.conf
+  
+  [www]
+  comment=description
+  path=share file path
+  valid users=user1 user2
+  write list=user1 user2
+  
+# apache webserver
+  DocumentRoot "path"
+  UserDir www
+  DirectoryIndex index.htm index.html
+  Listen 8080
+  ServerName www.jjj.com:8080
