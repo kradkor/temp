@@ -11,6 +11,11 @@ vi /etc/resolv.conf
 
 # 1. User info
 
+## accoumt attr
+/etc/login.defs
+/etc/skel
+/etc/default/useradd
+
 ## create account
 useradd ihduser: create user
 useradd -u 1500 ihduser: create user uid is 1500 
