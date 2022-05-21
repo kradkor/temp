@@ -12,26 +12,26 @@ vi /etc/resolv.conf
 # 1. User info
 
 ## create account
-useradd ihduser: 계정 생성
-useradd -u 1500 ihduser: uid가 1500인 계정 생성
+useradd ihduser: create user
+useradd -u 1500 ihduser: create user uid is 1500 
 
 ## 1.1 account login
 ### passwd
-사용자 패스워드 설정
-* passwd -S centos: 사용자 정보 확인
-* passwd -l centos: 로그인 일시 제한
-* passwd -u centos: 로그인 제한 해제    
-* cat /etc/passwd: 사용자 정보 확인
-* cat /etc/shadow: 사용자 비밀번호 확인
+how to set password 
+* passwd -S centos: print user info
+* passwd -l centos: limit login
+* passwd -u centos: unlimit login
+* cat /etc/passwd: print user info
+* cat /etc/shadow: print user password
 
 ### chage
-사용자 패스워드 만료 정보 변경과 관련된 명령어
-* chage -d 18523 centos: 마지막 변경일을 2020-09-21(18523)로 수정
-* chage -l centos: 사용자의 패스워드 관련정보 출력
-* chage -E 2022-12-31 centos: 사용자의 패스워드 만료일을 2022-12-31로 수정
+user password expire
+* chage -d 18523 centos: edit last change date to 2020-09-21(18523)
+* chage -l centos: print user password info
+* chage -E 2022-12-31 centos: edit password expire date to 2022-12-31
 
 ### sudoer
-* visudo: /etc/sudoers 파일을 편집
+* visudo: /etc/sudoers 
 
 # file, directory auth
 * chmod
@@ -91,7 +91,7 @@ rpm -qf [pack/powerpath]: intsall file is in what package
 rpm -ql pack: pack contained what file
 rpm -qi pack: installed pack detail info 
 rpm -qlp pack.rpm : what kinda files in pack 
-rpm -qip pack.rpm : pack files detail info패키지 파일의 상세 정보
+rpm -qip pack.rpm : pack files detail info
 
 
 # Process priority
@@ -102,25 +102,25 @@ nice -n [n] [proc name]: gen new process, add nice to before value
 renice [n] [PID]: change aleady gened process's priority to n
 
 
-# 스케쥴링
+# Scheduling
 ## crontab
-crontab -e: 크론탭 수정
-crontab -l: 크론탭 목록 출력
-crontab -eu centos: 사용자의 크론탭 수정
+crontab -e: edit crontab
+crontab -l: print crontab list
+crontab -eu centos: edit user crontab
 minute hour date month day(0:sun)
 * * * * * action 
 */10 * * * * * action : per 10 min
 
-# 로그 작성
-last: 최근 로그인 기록
-last -4 or last -n 4: 최근 기록 4개
-lastb: 최근 실패한 로그인 기록(last의 반대)
-lastb -4 or lastb -n 4: 최근 기록 4개
-lastlog: 모든계정의 가장 최근 로그인(계정 당 최근1개 + 시스템계정도 나온다는게 차이점)
+# Log
+last: last login log
+last -4 or last -n 4: last 4 log
+lastb: last fail login logs(last's composite)
+lastb -4 or lastb -n 4: last 4 fail log
+lastlog: all system accounts last login log
 
 
-# 시스템정보 확인
-커널정보 확인
+# System info
+kernel info
 uname -a
 hostnamectl
 cat /proc/version
@@ -128,10 +128,10 @@ cat /proc/version
 
 # iptables
 
-목적지 주소를 바꿀 때
+change destination address
 -t nat -A PREROUTING -i eth0 -j DNAT --to 200.100.50.10
 
-소스 주소를 바꿀 때
+change source address
 -t nat -A POSTROUTING -o eth0 -j SNAT --to 200.100.50.10
 
 
