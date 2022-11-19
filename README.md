@@ -694,6 +694,141 @@ raw - Connection tracking
 
 -----------------------------------------------
 
+# TCP Wrapper
+daemon is tcpd.
+man hosts.allow
+*
+ /etc/hosts.allow - Write allow hosts
+* /etc/hosts.deny - Write deny hosts
+  
+
+## config
+applying order : allow -> deny .
+one line. one rule. if over two line needed use \.
+[format]
+[daemon_list]:[client_list]:[shell_command]
+daemon_list : service run daemon name. define multiple daemon using comma.
+ALL
+
+client_list: access control target host. define multiple client using comma. [user@host] format allowed
+
+shell_command:
+%a: client ip
+%A: server ip
+%c: 
+%d: service name
+%h: client name
+
+[example]
+[hosts.allow]
+ALL : 192.168.9.0/255.255.255.0 : Allow all 192.168.9.0 range clients.
+
+-----------------------------------------------
+
+# Squid Server
+Proxy server
+## config
+* /etc/squid/squid.conf
+
+* cache_dir: 
+cache_dir ufs [path] [cache_size] [first dir count] [second dir count]
+* http_port [port_num]: set using port
+http_port 3128
+* acl [alias] src [ip_range]: set first acl and then define access control
+* acl [alias] dst [ip_range]
+* acl [alias] port [port_num]
+* acl [alias] srcdomain [domain_name]
+* acl [alias] srcdomain [domain_name]
+acl local src 192.168.10.0/255.255.255.0
+http_access allow local
+http_access dney all
+
+acl Safe_ports port 80
+acl Safe_ports port 21
+http_access deny !Safe_ports
+
+* cache_mem [size]: set cache size
+cache_mem 2048 MB
+* cache_log [log_path]: set logfile
+
+-----------------------------------------------
+
+# Samba
+* smbd: using TCP, 445
+* nmbd: using UDP 137, 139
+
+## start samba
+* service smb start : start SMB. /etc/rc.d/init.d/smb start => OK same
+* service nmb start : start NMB. /etc/rc.d/init.d/nmb start => OK same
+
+## chkconfig
+* chkconfig smb on
+* chkconfig nmb on
+  
+## config
+/etc/samba/smb.conf
+
+## add user
+make linux account who uses samba
+* adduser smbuser
+* passwd smbuser
+
+## mapping user
+* vi /etc/samba/smbusers
+root = administrator admin: root is mapped with administrator and admin
+nobody = guest pcguest smbguest: noboy is mapped with gust, pcguest, smb-guest
+
+## set samba account and password
+smbpasswd
+-a : add smb user and set password. user must be added in linux
+-x : remove smb user
+-d : unactivate smb user
+-e : activate smb user
+-n : remove password. can login without password. (need to foloowing option in smb.conf => null passwords = yes)
+[example]
+smbpasswd -a smbuser
+## others
+pbedit: smb user list and print detail infos
+-L : list of smb users
+-v : detail users
+-u : select user
+-a : add smb user and set password
+-r : modify smb user
+-x : delete smb user
+
+smbstatus: Print current connection
+testparm: Print Smb's config info
+nmblookup: lookup IPaddress with NETBIOS
+smbcontrol: message to smb daemon
+
+[example]
+pbedit -L
+pbedit -v -u smbuser
+
+## smbclient
+connect to smb server!
+[format]
+smbclient [option] [host_name] 
+[options]
+-L : Print smb share directory
+-M : send message with Ctrl+d
+-U [user_name] : select username
+-p [TCP_port] : select server tcp port
+
+[example]
+* smbclient -L 172.30.1.12 -U smbuser
+* smbclient //172.30.1.12/smbuser/ -U smbuser
+* smbclient //172.30.1.12/smbuser/ -U smbuser%pass1234 : set with password(pass1234)
+
+## mount smb dir
+look order
+* mkdir /smbuser
+* mount -t cifs //172.30.1.12/smbuser /smbuser -o user=smbuser,password=pass1234
+* df
+* ls -l /smbuser/
+
+
+-----------------------------------------------
 # history
 clean
 history -c
@@ -707,7 +842,7 @@ printf '\033[3J'
 
 sudo chmod a+x /usr/local/bin/cls
   
-# samba
+
   /etc/samba/smb.conf
   
   [www]
